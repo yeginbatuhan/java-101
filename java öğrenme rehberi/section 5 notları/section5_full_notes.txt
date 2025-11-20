@@ -1,0 +1,1149 @@
+# Section 5: Arrays and Data Structures - Tam Ders Notu
+
+## İçindekiler
+1. [Need of Array (Array'e Neden İhtiyaç Var?)](#1-need-of-array)
+2. [Creation of Array (Array Oluşturma)](#2-creation-of-array)
+3. [Multi Dimensional Array (Çok Boyutlu Array)](#3-multi-dimensional-array)
+4. [Jagged and 3D Array](#4-jagged-and-3d-array)
+5. [Drawbacks of Array (Array'lerin Dezavantajları)](#5-drawbacks-of-array)
+6. [Array of Objects (Nesne Dizileri)](#6-array-of-objects)
+7. [Enhanced for loop (Foreach)](#7-enhanced-for-loop)
+8. [Working with Arrays Exercise](#8-working-with-arrays-exercise)
+
+---
+
+## 1. Need of Array (Array'e Neden İhtiyaç Var?)
+
+### Temel Kavram
+**Array**, aynı türden birden fazla değeri tek bir değişken altında saklayan veri yapısıdır.
+
+### Sorun: Array Olmadan
+```java
+// Kötü yöntem - 100 öğrenci için 100 değişken!
+int student1 = 85;
+int student2 = 90;
+int student3 = 78;
+// ... 97 tane daha!
+```
+
+### Çözüm: Array İle
+```java
+// İyi yöntem - tek değişkenle tüm öğrenciler
+int[] students = new int[100];
+students[0] = 85;
+students[1] = 90;
+students[2] = 78;
+```
+
+### Laravel Karşılaştırması
+```php
+// PHP'de array
+$students = [85, 90, 78, 92, 88];
+$average = array_sum($students) / count($students);
+
+// Laravel Collection
+$studentsCollection = collect([85, 90, 78, 92, 88]);
+$average = $studentsCollection->avg();
+```
+
+### Örnek: Öğrenci Notları ve Ortalama
+```java
+public class ArrayExample {
+    public static void main(String[] args) {
+        // Array kullanarak not listesi
+        int[] students = new int[5];
+        students[0] = 85;
+        students[1] = 90;
+        students[2] = 78;
+        students[3] = 92;
+        students[4] = 88;
+        
+        // Loop ile ortalama hesaplama
+        int sum = 0;
+        for(int i = 0; i < students.length; i++) {
+            sum += students[i];
+        }
+        double average = sum / 5.0;
+        
+        System.out.println("Ortalama: " + average);
+    }
+}
+```
+
+**Çıktı:**
+```
+Ortalama: 86.6
+```
+
+---
+
+## 2. Creation of Array (Array Oluşturma)
+
+### Java'da Array Oluşturma Yöntemleri
+
+#### Yöntem 1: Boyut Belirterek
+```java
+int[] numbers1 = new int[5]; // 5 elemanlı array, default değer 0
+numbers1[0] = 10;
+numbers1[1] = 20;
+numbers1[2] = 30;
+numbers1[3] = 40;
+numbers1[4] = 50;
+```
+
+#### Yöntem 2: Değerlerle Birlikte (Kısa Yol)
+```java
+int[] numbers2 = {10, 20, 30, 40, 50};
+```
+
+#### Yöntem 3: new Keyword İle Değerlerle
+```java
+int[] numbers3 = new int[]{10, 20, 30, 40, 50};
+```
+
+### Farklı Veri Tipleriyle Array
+```java
+String[] names = {"Ali", "Veli", "Ayşe"};
+double[] prices = {19.99, 29.99, 39.99};
+boolean[] flags = {true, false, true, false};
+char[] letters = {'A', 'B', 'C'};
+```
+
+### Default Değerler
+```java
+int[] integers = new int[3];        // [0, 0, 0]
+double[] doubles = new double[3];   // [0.0, 0.0, 0.0]
+boolean[] booleans = new boolean[3];// [false, false, false]
+String[] strings = new String[3];   // [null, null, null]
+```
+
+### Array Uzunluğu
+```java
+int[] numbers = {10, 20, 30, 40, 50};
+System.out.println(numbers.length); // 5
+```
+
+### Laravel Karşılaştırması
+```php
+// PHP'de array oluşturma
+$numbers1 = [];                     // Boş array
+$numbers2 = [10, 20, 30, 40, 50];   // Değerlerle
+$numbers3 = array(10, 20, 30);      // Eski syntax
+
+// Associative array (Java'da yok!)
+$student = [
+    'name' => 'Ali',
+    'age' => 25,
+    'grade' => 85
+];
+
+// Karışık tipler (Java'da olmaz!)
+$mixed = [1, "string", 3.14, true];
+```
+
+---
+
+## 3. Multi Dimensional Array (Çok Boyutlu Array)
+
+### 2D Array Konsepti
+2D Array = Satır ve sütunlardan oluşan tablo (matris) yapısı.
+
+```
+    Sütun 0  Sütun 1  Sütun 2
+Satır 0:  [1]      [2]      [3]
+Satır 1:  [4]      [5]      [6]
+Satır 2:  [7]      [8]      [9]
+```
+
+### 2D Array Oluşturma
+
+#### Yöntem 1: Boyut Belirterek
+```java
+int[][] matrix1 = new int[3][4]; // 3 satır, 4 sütun
+
+// Değer atama
+matrix1[0][0] = 10;
+matrix1[0][1] = 20;
+matrix1[1][2] = 70;
+```
+
+#### Yöntem 2: Değerlerle Birlikte
+```java
+int[][] matrix2 = {
+    {1, 2, 3, 4},      // Satır 0
+    {5, 6, 7, 8},      // Satır 1
+    {9, 10, 11, 12}    // Satır 2
+};
+```
+
+### 2D Array Yazdırma - FOR Loop
+```java
+for(int i = 0; i < matrix2.length; i++) {          // Satırlar
+    for(int j = 0; j < matrix2[i].length; j++) {   // Sütunlar
+        System.out.print(matrix2[i][j] + "\t");
+    }
+    System.out.println();
+}
+```
+
+### 2D Array Yazdırma - FOREACH
+```java
+for(int[] row : matrix2) {           // Her satırı al
+    for(int element : row) {         // Satırdaki her elemanı al
+        System.out.print(element + "\t");
+    }
+    System.out.println();
+}
+```
+
+### Gerçek Hayat Örneği: Öğrenci Notları
+```java
+int[][] studentGrades = {
+    {85, 90, 78, 92}, // Ali
+    {88, 85, 95, 89}, // Veli
+    {92, 87, 91, 94}  // Ayşe
+};
+
+String[] studentNames = {"Ali", "Veli", "Ayşe"};
+String[] subjects = {"Mat", "Fizik", "Kimya", "Bio"};
+
+// Tablo yazdırma
+System.out.print("Öğrenci\t");
+for(String subject : subjects) {
+    System.out.print(subject + "\t");
+}
+System.out.println("Ort");
+
+for(int i = 0; i < studentGrades.length; i++) {
+    System.out.print(studentNames[i] + "\t");
+    int sum = 0;
+    for(int j = 0; j < studentGrades[i].length; j++) {
+        System.out.print(studentGrades[i][j] + "\t");
+        sum += studentGrades[i][j];
+    }
+    double average = sum / (double) studentGrades[i].length;
+    System.out.printf("%.1f\n", average);
+}
+```
+
+### Boyut Bilgileri
+```java
+int[][] matrix = {
+    {1, 2, 3, 4},
+    {5, 6, 7, 8},
+    {9, 10, 11, 12}
+};
+
+System.out.println("Satır sayısı: " + matrix.length);           // 3
+System.out.println("Sütun sayısı: " + matrix[0].length);        // 4
+```
+
+---
+
+## 4. Jagged and 3D Array
+
+### Jagged Array (Düzensiz Array)
+
+**Jagged Array:** Her satırın farklı uzunlukta olabildiği array yapısı.
+
+```
+Normal 2D Array:        Jagged Array:
+[1][2][3][4]           [1][2]
+[5][6][7][8]           [3][4][5][6][7]
+[9][10][11][12]        [8]
+                       [9][10][11]
+```
+
+#### Jagged Array Oluşturma
+
+**Yöntem 1: İki Aşamalı**
+```java
+int[][] jagged = new int[4][]; // Sadece satır sayısı
+
+jagged[0] = new int[2];    // 1. satır 2 elemanlı
+jagged[1] = new int[5];    // 2. satır 5 elemanlı
+jagged[2] = new int[1];    // 3. satır 1 elemanlı
+jagged[3] = new int[3];    // 4. satır 3 elemanlı
+```
+
+**Yöntem 2: Değerlerle**
+```java
+int[][] jagged = {
+    {1, 2},              // 2 eleman
+    {3, 4, 5, 6, 7},     // 5 eleman
+    {8},                 // 1 eleman
+    {9, 10, 11}          // 3 eleman
+};
+```
+
+#### Gerçek Hayat Örneği: Sınıflardaki Öğrenci Sayıları
+```java
+String[][] classrooms = {
+    {"Ali", "Veli", "Ayşe", "Mehmet"},           // 9A - 4 öğrenci
+    {"Zeynep", "Can", "Elif"},                   // 9B - 3 öğrenci
+    {"Ahmet", "Fatma", "Hasan", "Deniz", "Ece"}, // 9C - 5 öğrenci
+    {"Murat", "Selin"}                           // 9D - 2 öğrenci
+};
+
+String[] classNames = {"9A", "9B", "9C", "9D"};
+
+for(int i = 0; i < classrooms.length; i++) {
+    System.out.println(classNames[i] + " (" + classrooms[i].length + " öğrenci):");
+    for(String student : classrooms[i]) {
+        System.out.println("  - " + student);
+    }
+}
+```
+
+### 3D Array
+
+**3D Array:** Array'in içinde 2D array. Küp gibi düşünebilirsin.
+
+```
+[Katman 0]         [Katman 1]
+  1  2  3            10 11 12
+  4  5  6            13 14 15
+  7  8  9            16 17 18
+```
+
+#### 3D Array Oluşturma
+```java
+int[][][] cube = {
+    { // Katman 0
+        {1, 2, 3},
+        {4, 5, 6}
+    },
+    { // Katman 1
+        {7, 8, 9},
+        {10, 11, 12}
+    }
+};
+```
+
+#### 3D Array Yazdırma - FOR Loop
+```java
+for(int i = 0; i < cube.length; i++) {              // Katmanlar
+    System.out.println("Katman " + i + ":");
+    for(int j = 0; j < cube[i].length; j++) {       // Satırlar
+        for(int k = 0; k < cube[i][j].length; k++) {// Sütunlar
+            System.out.print(cube[i][j][k] + "\t");
+        }
+        System.out.println();
+    }
+    System.out.println();
+}
+```
+
+#### 3D Array Yazdırma - FOREACH
+```java
+int layerNumber = 0;
+for(int[][] layer : cube) {                  // Her katmanı al
+    System.out.println("Katman " + layerNumber + ":");
+    for(int[] row : layer) {                 // Katmandaki her satırı al
+        for(int element : row) {             // Satırdaki her elemanı al
+            System.out.print(element + "\t");
+        }
+        System.out.println();
+    }
+    System.out.println();
+    layerNumber++;
+}
+```
+
+#### Gerçek Hayat Örneği: Okul Sistemi
+```java
+// [Sınıf][Öğrenci][Dersler]
+int[][][] schoolGrades = {
+    { // Sınıf 9A
+        {85, 90, 78},  // Ali
+        {88, 85, 92},  // Veli
+        {90, 88, 86}   // Ayşe
+    },
+    { // Sınıf 9B
+        {82, 87, 90},  // Mehmet
+        {85, 89, 84},  // Zeynep
+        {91, 86, 88}   // Can
+    }
+};
+
+String[] classNames = {"9A", "9B"};
+String[][] studentNames = {
+    {"Ali", "Veli", "Ayşe"},
+    {"Mehmet", "Zeynep", "Can"}
+};
+String[] subjects = {"Matematik", "Fizik", "Kimya"};
+```
+
+---
+
+## 5. Drawbacks of Array (Array'lerin Dezavantajları)
+
+### 1. Sabit Boyut (Fixed Size)
+
+**Problem:** Array oluşturduktan sonra boyutunu değiştiremezsin!
+
+```java
+int[] numbers = new int[3];
+numbers[0] = 10;
+numbers[1] = 20;
+numbers[2] = 30;
+
+// 4. eleman eklemek istiyoruz ama YAPAMIYORUZ!
+// numbers[3] = 40; // ArrayIndexOutOfBoundsException!
+
+// Yeni array oluşturmak zorundayız
+int[] newNumbers = new int[4];
+for(int i = 0; i < numbers.length; i++) {
+    newNumbers[i] = numbers[i];
+}
+newNumbers[3] = 40;
+```
+
+**Laravel'de bu sorun yok:**
+```php
+$numbers = [10, 20, 30];
+$numbers[] = 40;  // Kolayca eklenir!
+```
+
+### 2. Eleman Silme Zorluğu
+
+**Problem:** Ortadan eleman silmek için yeni array oluşturmalısın.
+
+```java
+String[] students = {"Ali", "Veli", "Ayşe", "Mehmet", "Zeynep"};
+
+// "Ayşe"yi silmek istiyoruz (index 2)
+int removeIndex = 2;
+String[] newStudents = new String[students.length - 1];
+
+int newIndex = 0;
+for(int i = 0; i < students.length; i++) {
+    if(i != removeIndex) {
+        newStudents[newIndex] = students[i];
+        newIndex++;
+    }
+}
+```
+
+**Laravel'de:**
+```php
+$students = ['Ali', 'Veli', 'Ayşe', 'Mehmet', 'Zeynep'];
+unset($students[2]);  // Ayşe silindi
+$students = array_values($students); // Index'leri düzenle
+```
+
+### 3. Tek Tip Kısıtı
+
+**Problem:** Bir array'de sadece tek tip veri tutabilirsin.
+
+```java
+int[] numbers = {1, 2, 3};        // Sadece integer
+String[] names = {"Ali", "Veli"}; // Sadece String
+
+// Karışık tip için Object kullanmalısın (kötü çözüm)
+Object[] mixed = {1, "Ali", 3.14, true};
+// Ama tip kontrolü kaybedersin!
+```
+
+**Laravel'de:**
+```php
+$mixed = [1, 'Ali', 3.14, true, ['nested']]; // Sorun yok!
+```
+
+### 4. Hazır Metot Eksikliği
+
+**Problem:** Basit işlemler için bile manuel kod yazmalısın.
+
+```java
+int[] numbers = {5, 2, 8, 1, 9, 3};
+
+// Eleman aramak için manuel loop
+int searchValue = 8;
+boolean found = false;
+for(int i = 0; i < numbers.length; i++) {
+    if(numbers[i] == searchValue) {
+        found = true;
+        break;
+    }
+}
+
+// Sıralamak için Arrays.sort() import etmelisin
+java.util.Arrays.sort(numbers);
+
+// Ters çevirmek için manuel kod
+int[] reversed = new int[numbers.length];
+for(int i = 0; i < numbers.length; i++) {
+    reversed[i] = numbers[numbers.length - 1 - i];
+}
+```
+
+**Laravel'de:**
+```php
+$numbers = [5, 2, 8, 1, 9, 3];
+
+in_array(8, $numbers);        // Arama
+sort($numbers);               // Sıralama
+$reversed = array_reverse($numbers); // Ters çevirme
+```
+
+### 5. Dinamik Boyutlandırma İmkansız
+
+**Problem:** Kullanıcıdan kaç input geleceğini bilmiyorsan çok büyük array oluşturmalısın (bellek israfı) veya her eleman için yeni array kopyalamalısın (çok yavaş).
+
+```java
+// Kötü çözüm: Çok büyük array
+int[] inputs = new int[1000]; // Belki yeter?
+
+// Daha kötü çözüm: Her seferinde yeni array
+int[] data = new int[1];
+data[0] = 10;
+
+// 2. eleman için
+int[] temp = new int[2];
+for(int i = 0; i < data.length; i++) {
+    temp[i] = data[i];
+}
+temp[1] = 20;
+data = temp;
+```
+
+### Çözüm: ArrayList Kullan!
+
+```java
+import java.util.ArrayList;
+
+ArrayList<String> list = new ArrayList<>();
+list.add("Ali");        // Kolay ekleme
+list.add("Veli");
+list.remove(0);         // Kolay silme
+list.contains("Ali");   // Arama
+list.size();            // Boyut
+```
+
+**ArrayList Section 14'te detaylı göreceğiz!**
+
+### Ne Zaman Array, Ne Zaman ArrayList?
+
+**ARRAY KULLAN:**
+- Boyut kesin ve değişmeyecekse
+- Performans kritikse
+- Primitive tipler için (int, double)
+- Multidimensional veri (matris)
+
+**ARRAYLIST KULLAN:**
+- Boyut belli değilse
+- Sık ekleme/silme yapılacaksa
+- Hazır metotlara ihtiyaç varsa
+- Dinamik veri yönetimi gerekiyorsa
+
+---
+
+## 6. Array of Objects (Nesne Dizileri)
+
+### Konsept
+Primitive tipler (int, String) yerine **kendi oluşturduğumuz class'lardan** array'ler oluşturmak.
+
+### Adım 1: Class Oluştur
+```java
+class Student {
+    int id;
+    String name;
+    int age;
+    double grade;
+    
+    public Student(int id, String name, int age, double grade) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.grade = grade;
+    }
+    
+    public void display() {
+        System.out.println("ID: " + id + ", İsim: " + name + 
+                         ", Yaş: " + age + ", Not: " + grade);
+    }
+}
+```
+
+### Adım 2: Object Array Oluştur
+```java
+// Yöntem 1: Boyut belirterek
+Student[] students = new Student[3];
+students[0] = new Student(1, "Ali", 20, 85.5);
+students[1] = new Student(2, "Veli", 21, 90.0);
+students[2] = new Student(3, "Ayşe", 19, 88.5);
+
+// Yöntem 2: Değerlerle birlikte
+Student[] students = {
+    new Student(1, "Ali", 20, 85.5),
+    new Student(2, "Veli", 21, 90.0),
+    new Student(3, "Ayşe", 19, 88.5)
+};
+```
+
+### Adım 3: Array'i Kullan
+
+**FOR Loop ile:**
+```java
+for(int i = 0; i < students.length; i++) {
+    students[i].display();
+}
+```
+
+**FOREACH ile:**
+```java
+for(Student student : students) {
+    student.display();
+}
+```
+
+### Hesaplamalar
+```java
+// Ortalama not hesapla
+double totalGrade = 0.0;
+for(Student student : students) {
+    totalGrade += student.grade;
+}
+double average = totalGrade / students.length;
+
+// En yüksek notu bul
+Student topStudent = students[0];
+for(Student student : students) {
+    if(student.grade > topStudent.grade) {
+        topStudent = student;
+    }
+}
+```
+
+### Gerçek Hayat Örneği: E-Ticaret Ürün Sistemi
+
+```java
+class Product {
+    int id;
+    String name;
+    double price;
+    int stock;
+    String category;
+    
+    public Product(int id, String name, double price, int stock, String category) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+    }
+    
+    public void display() {
+        System.out.printf("%-20s | Fiyat: %8.2f TL | Stok: %3d | %s\n", 
+                         name, price, stock, category);
+    }
+    
+    public double getTotalValue() {
+        return price * stock;
+    }
+}
+
+// Kullanım
+Product[] products = {
+    new Product(1, "Laptop", 15000.00, 10, "Elektronik"),
+    new Product(2, "Mouse", 250.00, 50, "Elektronik"),
+    new Product(3, "Masa", 2500.00, 8, "Mobilya")
+};
+
+// Kategoriye göre filtreleme
+for(Product product : products) {
+    if(product.category.equals("Elektronik")) {
+        product.display();
+    }
+}
+
+// Toplam stok değeri
+double totalValue = 0.0;
+for(Product product : products) {
+    totalValue += product.getTotalValue();
+}
+```
+
+### Laravel Karşılaştırması
+```php
+// Eloquent Models (Array of Objects)
+$students = Student::all();
+
+// Ortalama
+$average = $students->avg('grade');
+
+// Filtreleme
+$topStudents = $students->where('grade', '>', 80);
+
+// En yüksek not
+$topStudent = $students->sortByDesc('grade')->first();
+
+// Foreach
+foreach($students as $student) {
+    echo "{$student->name}: {$student->grade}\n";
+}
+```
+
+### Önemli: Null Kontrolü
+```java
+Student[] students = new Student[3];
+// students[0] hala null!
+
+if(students[0] != null) {
+    students[0].display(); // Güvenli
+} else {
+    System.out.println("Öğrenci bulunamadı");
+}
+```
+
+---
+
+## 7. Enhanced for loop (Foreach)
+
+### Syntax
+```java
+for(ElementType element : arrayName) {
+    // element ile işlem yap
+}
+```
+
+### 1D Array ile Foreach
+```java
+int[] numbers = {10, 20, 30, 40, 50};
+
+// FOR loop
+for(int i = 0; i < numbers.length; i++) {
+    System.out.println(numbers[i]);
+}
+
+// FOREACH loop (daha temiz)
+for(int number : numbers) {
+    System.out.println(number);
+}
+```
+
+### 2D Array ile Foreach
+```java
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+// Dış foreach: Her satırı al
+for(int[] row : matrix) {
+    // İç foreach: Satırdaki her elemanı al
+    for(int element : row) {
+        System.out.print(element + " ");
+    }
+    System.out.println();
+}
+```
+
+### 3D Array ile Foreach
+```java
+int[][][] cube = {
+    { {1, 2}, {3, 4} },
+    { {5, 6}, {7, 8} }
+};
+
+for(int[][] layer : cube) {          // Katmanlar
+    for(int[] row : layer) {          // Satırlar
+        for(int element : row) {      // Elemanlar
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
+    System.out.println();
+}
+```
+
+### FOR vs FOREACH
+
+| Özellik | FOR Loop | FOREACH Loop |
+|---------|----------|--------------|
+| **Index kontrolü** | Var (i, j, k) | Yok |
+| **Değer değiştirme** | Mümkün | Değiştirilemez |
+| **Okunabilirlik** | Daha karmaşık | Daha temiz |
+| **Kullanım** | Index'e ihtiyaç varsa | Sadece okuma için |
+
+### Değer Değiştirme Farkı
+```java
+int[] array = {1, 2, 3, 4, 5};
+
+// FOR LOOP - Array'i değiştirebilir
+for(int i = 0; i < array.length; i++) {
+    array[i] = array[i] * 2;  // Değişir!
+}
+
+// FOREACH - Array'i DEĞİŞTİREMEZ
+for(int element : array) {
+    element = element * 2;  // Sadece element değişkeni değişir, array değişmez!
+}
+```
+
+### Object Array ile Foreach
+```java
+Student[] students = {
+    new Student(1, "Ali", 20, 85.5),
+    new Student(2, "Veli", 21, 90.0),
+    new Student(3, "Ayşe", 19, 88.5)
+};
+
+// Foreach ile her öğrenciyi yazdır
+for(Student student : students) {
+    student.display();
+}
+
+// Ortalama üstü öğrenciler
+double average = 88.0;
+for(Student student : students) {
+    if(student.grade > average) {
+        System.out.println(student.name + " ortalamanın üstünde");
+    }
+}
+```
+
+---
+
+## 8. Working with Arrays Exercise
+
+### Egzersiz 1: Öğrenci Not Sistemi
+
+**Gereksinimler:**
+- 5 öğrencinin 3 sınav notunu tut
+- Her öğrencinin ortalamasını hesapla
+- Sınıf ortalamasını bul
+- En başarılı ve en başarısız öğrenciyi bul
+- Geçen/kalan sayısını hesapla (50 altı kaldı)
+
+```java
+String[] studentNames = {"Ali", "Veli", "Ayşe", "Mehmet", "Zeynep"};
+
+int[][] examScores = {
+    {85, 90, 78},  // Ali
+    {65, 70, 60},  // Veli
+    {95, 92, 88},  // Ayşe
+    {45, 50, 48},  // Mehmet
+    {88, 85, 90}   // Zeynep
+};
+
+// Her öğrencinin ortalaması
+double[] studentAverages = new double[studentNames.length];
+double classTotal = 0.0;
+
+for(int i = 0; i < studentNames.length; i++) {
+    int studentTotal = 0;
+    for(int j = 0; j < examScores[i].length; j++) {
+        studentTotal += examScores[i][j];
+    }
+    double average = studentTotal / (double) examScores[i].length;
+    studentAverages[i] = average;
+    classTotal += average;
+}
+
+// Sınıf ortalaması
+double classAverage = classTotal / studentNames.length;
+System.out.printf("Sınıf Ortalaması: %.2f\n", classAverage);
+```
+
+### Egzersiz 2: Envanter Sistemi
+
+**Gereksinimler:**
+- Ürün adı, fiyat, stok miktarı
+- Toplam envanter değeri
+- Stok uyarısı (10'dan az)
+- En pahalı/ucuz ürün
+- Ortalama ürün fiyatı
+
+```java
+String[] productNames = {"Laptop", "Mouse", "Klavye", "Monitor"};
+double[] prices = {15000.00, 250.00, 500.00, 3000.00};
+int[] stock = {5, 25, 15, 8};
+
+// Toplam envanter değeri
+double totalValue = 0.0;
+for(int i = 0; i < productNames.length; i++) {
+    double itemValue = prices[i] * stock[i];
+    totalValue += itemValue;
+    
+    // Stok uyarısı
+    if(stock[i] < 10) {
+        System.out.println("⚠️ " + productNames[i] + " - Düşük stok!");
+    }
+}
+
+// En pahalı ürün
+int mostExpensiveIndex = 0;
+for(int i = 1; i < prices.length; i++) {
+    if(prices[i] > prices[mostExpensiveIndex]) {
+        mostExpensiveIndex = i;
+    }
+}
+System.out.println("En Pahalı: " + productNames[mostExpensiveIndex]);
+```
+
+### Egzersiz 3: Çalışan Maaş Sistemi
+
+**Gereksinimler:**
+- Çalışan adı, departman, maaş
+- Departman bazında toplam maaş
+- En yüksek/düşük maaş
+- Ortalama maaş
+- %10 maaş artışı simülasyonu
+
+```java
+String[] employeeNames = {"Ali Yılmaz", "Veli Kaya", "Ayşe Demir"};
+String[] departments = {"IT", "IT", "HR"};
+double[] salaries = {15000, 18000, 12000};
+
+// Departman bazında toplam
+double itTotal = 0.0, hrTotal = 0.0;
+int itCount = 0, hrCount = 0;
+
+for(int i = 0; i < departments.length; i++) {
+    if(departments[i].equals("IT")) {
+        itTotal += salaries[i];
+        itCount++;
+    } else if(departments[i].equals("HR")) {
+        hrTotal += salaries[i];
+        hrCount++;
+    }
+}
+
+System.out.println("IT Departmanı Ortalaması: " + (itTotal / itCount));
+System.out.println("HR Departmanı Ortalaması: " + (hrTotal / hrCount));
+
+// %10 artış simülasyonu
+System.out.println("\n%10 Artış Sonrası:");
+for(int i = 0; i < employeeNames.length; i++) {
+    double newSalary = salaries[i] * 1.10;
+    System.out.printf("%s: %.2f → %.2f TL\n", 
+                     employeeNames[i], salaries[i], newSalary);
+}
+```
+
+### Egzersiz 4: Haftalık Satış Analizi
+
+**Gereksinimler:**
+- 7 gün x 4 ürün satış matrisi
+- Her günün toplam satışı
+- Her ürünün haftalık toplam satışı
+- En çok satan gün/ürün
+- Hafta içi vs hafta sonu karşılaştırma
+
+```java
+String[] days = {"Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"};
+String[] products = {"Laptop", "Telefon", "Tablet", "Kulaklık"};
+
+int[][] sales = {
+    {5, 8, 3, 12},   // Pazartesi
+    {6, 10, 4, 15},  // Salı
+    {8, 12, 5, 18},  // Çarşamba
+    {7, 9, 6, 14},   // Perşembe
+    {10, 15, 8, 20}, // Cuma
+    {12, 18, 10, 25},// Cumartesi
+    {9, 14, 7, 22}   // Pazar
+};
+
+// Günlük toplam
+int[] dailyTotals = new int[days.length];
+for(int i = 0; i < days.length; i++) {
+    int dayTotal = 0;
+    for(int j = 0; j < products.length; j++) {
+        dayTotal += sales[i][j];
+    }
+    dailyTotals[i] = dayTotal;
+    System.out.println(days[i] + " Toplam: " + dayTotal);
+}
+
+// Ürün bazında toplam
+System.out.println("\nÜrün Bazında:");
+for(int j = 0; j < products.length; j++) {
+    int productTotal = 0;
+    for(int i = 0; i < days.length; i++) {
+        productTotal += sales[i][j];
+    }
+    System.out.println(products[j] + " Toplam: " + productTotal);
+}
+
+// En çok satan gün
+int bestDayIndex = 0;
+for(int i = 1; i < dailyTotals.length; i++) {
+    if(dailyTotals[i] > dailyTotals[bestDayIndex]) {
+        bestDayIndex = i;
+    }
+}
+System.out.println("\nEn Çok Satan Gün: " + days[bestDayIndex]);
+
+// Hafta içi vs hafta sonu
+int weekdayTotal = 0, weekendTotal = 0;
+for(int i = 0; i < 5; i++) {
+    weekdayTotal += dailyTotals[i];
+}
+for(int i = 5; i < 7; i++) {
+    weekendTotal += dailyTotals[i];
+}
+System.out.println("Hafta İçi: " + weekdayTotal);
+System.out.println("Hafta Sonu: " + weekendTotal);
+```
+
+---
+
+## Özet: Önemli Noktalar
+
+### Array Temel Kurallar
+1. **Sabit boyut** - Oluşturduktan sonra değiştirilemez
+2. **Tek tip** - Aynı türden veriler tutulur
+3. **0-indexed** - İlk eleman index 0'dadır
+4. **length property** - `array.length` ile boyut öğrenilir
+5. **Null check** - Object array'lerinde null kontrolü şart
+
+### Array Türleri
+```java
+// 1D Array
+int[] numbers = {1, 2, 3};
+
+// 2D Array (Matris)
+int[][] matrix = {{1,2}, {3,4}};
+
+// 3D Array (Küp)
+int[][][] cube = {{{1,2}}, {{3,4}}};
+
+// Jagged Array (Düzensiz)
+int[][] jagged = {{1,2}, {3,4,5}, {6}};
+
+// Object Array
+Student[] students = new Student[5];
+```
+
+### Loop Türleri
+```java
+// FOR loop - index kontrolü var
+for(int i = 0; i < array.length; i++) {
+    System.out.println(array[i]);
+}
+
+// FOREACH - daha temiz, sadece okuma
+for(int element : array) {
+    System.out.println(element);
+}
+```
+
+### Array vs ArrayList
+
+| Özellik | Array | ArrayList |
+|---------|-------|-----------|
+| Boyut | Sabit | Dinamik |
+| Tip | Primitive OK | Sadece Object |
+| Ekleme | Zor | Kolay (`add()`) |
+| Silme | Zor | Kolay (`remove()`) |
+| Performans | Hızlı | Biraz yavaş |
+| Metotlar | Az | Çok |
+
+### Best Practices
+
+**Array kullan:**
+- Boyut belli ve değişmeyecekse
+- Performans önemli ise
+- Primitive tipler için
+- Matris/tablo yapıları için
+
+**ArrayList kullan:**
+- Dinamik boyut gerekiyorsa
+- Sık ekleme/silme yapılacaksa
+- Hazır metotlara ihtiyaç varsa
+
+### Sık Yapılan Hatalar
+
+```java
+// ❌ HATA 1: ArrayIndexOutOfBoundsException
+int[] numbers = {1, 2, 3};
+numbers[3] = 4; // HATA! Index 0-2 arası olmalı
+
+// ❌ HATA 2: NullPointerException
+Student[] students = new Student[3];
+students[0].display(); // HATA! students[0] null
+
+// ✅ DOĞRU: Önce null kontrolü
+if(students[0] != null) {
+    students[0].display();
+}
+
+// ❌ HATA 3: Foreach ile değer değiştirme
+for(int num : numbers) {
+    num = num * 2; // Array DEĞİŞMEZ!
+}
+
+// ✅ DOĞRU: For loop kullan
+for(int i = 0; i < numbers.length; i++) {
+    numbers[i] = numbers[i] * 2;
+}
+```
+
+### Laravel ile Karşılaştırma
+
+| İşlem | Java | Laravel/PHP |
+|-------|------|-------------|
+| **Oluşturma** | `int[] arr = {1,2,3};` | `$arr = [1,2,3];` |
+| **Ekleme** | Yeni array gerekli | `$arr[] = 4;` |
+| **Silme** | Yeni array gerekli | `unset($arr[1]);` |
+| **Arama** | Manuel loop | `in_array(2, $arr)` |
+| **Sıralama** | `Arrays.sort(arr)` | `sort($arr)` |
+| **Filtreleme** | Manuel loop | `array_filter()` |
+| **Map** | Manuel loop | `array_map()` |
+| **Uzunluk** | `arr.length` | `count($arr)` |
+
+---
+
+## Section 5 Tamamlandı! ✅
+
+### Bu Section'da Öğrendiklerimiz:
+
+✅ **Array nedir ve neden gerekli**
+- Birden fazla veriyi tek değişkende tutma
+- Loop'larla toplu işlem yapma
+
+✅ **Array oluşturma yöntemleri**
+- Boyut belirterek
+- Değerlerle birlikte
+- Default değerler
+
+✅ **Multi-dimensional arrays**
+- 2D Array (matris/tablo)
+- 3D Array (küp yapısı)
+- Jagged Array (düzensiz)
+
+✅ **Array'lerin dezavantajları**
+- Sabit boyut sorunu
+- Eleman ekleme/silme zorluğu
+- Tek tip kısıtı
+- Hazır metot eksikliği
+
+✅ **Array of Objects**
+- Kendi class'larımızdan array'ler
+- Gerçek hayat uygulamaları
+- Object işlemleri
+
+✅ **Enhanced for loop (Foreach)**
+- Daha temiz kod
+- Sadece okuma için
+- 1D, 2D, 3D array'lerde kullanım
+
+✅ **Pratik uygulamalar**
+- Öğrenci not sistemi
+- Envanter yönetimi
+- Maaş hesaplama
+- Satış analizi
+
+### Sıradaki Section:
+**Section 6: Strings** - String manipülasyonu, String metodları, StringBuilder vs StringBuffer
+
+### Tekrar İçin:
+Bu notları kaydet ve ihtiyaç duyduğunda geri dön. Array konusu Java'nın temelidir ve sürekli kullanacaksın!
+
+---
+
+**Son Güncelleme:** 20 Kasım 2025  
+**Öğrenme Durumu:** ✅ Tamamlandı  
+**Pratik Egzersizler:** 4/4 Tamamlandı
